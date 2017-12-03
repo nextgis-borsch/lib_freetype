@@ -172,7 +172,8 @@ include_directories(BEFORE "${PROJECT_BINARY_DIR}/include")
 
 
 
-file(GLOB PUBLIC_HEADERS "include/ft2build.h" "include/freetype/*.h")
+set(PUBLIC_HEADERS include/ft2build.h)
+file(GLOB PUBLIC_FT_HEADERS "include/freetype/*.h")
 file(GLOB PUBLIC_CONFIG_HEADERS "include/freetype/config/*.h")
 file(GLOB PRIVATE_HEADERS "include/freetype/internal/*.h")
 
@@ -231,15 +232,18 @@ endif ()
 
 set(LIB_NAME ${PROJECT_NAME})
 if(BUILD_SHARED_LIBS)
-    add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_CONFIG_HEADERS})
+    add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_FT_HEADERS} ${PUBLIC_CONFIG_HEADERS})
     set_target_properties (${LIB_NAME} PROPERTIES
         VERSION ${VERSION}
         SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
         DEFINE_SYMBOL freetype_EXPORTS)
 elseif(OSX_FRAMEWORK)
-    add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_CONFIG_HEADERS})
+    add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_FT_HEADERS} ${PUBLIC_CONFIG_HEADERS})
     set_property(SOURCE ${PUBLIC_CONFIG_HEADERS}
-      PROPERTY MACOSX_PACKAGE_LOCATION Headers/config
+      PROPERTY MACOSX_PACKAGE_LOCATION Headers/freetype/config
+    )
+    set_property(SOURCE ${PUBLIC_FT_HEADERS}
+      PROPERTY MACOSX_PACKAGE_LOCATION Headers/freetype
     )
     set_target_properties(${LIB_NAME} PROPERTIES
       FRAMEWORK TRUE
@@ -253,7 +257,7 @@ elseif(OSX_FRAMEWORK)
       SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
       )
 else()
-    add_library(${LIB_NAME} STATIC ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_CONFIG_HEADERS})
+    add_library(${LIB_NAME} STATIC ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_FT_HEADERS} ${PUBLIC_CONFIG_HEADERS})
 endif()
 
 target_link_extlibraries(${LIB_NAME})
