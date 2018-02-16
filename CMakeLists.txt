@@ -298,12 +298,6 @@ if (NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
         ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
         FRAMEWORK DESTINATION ${INSTALL_LIB_DIR}
     )
-  if(NOT OSX_FRAMEWORK)
-      install(EXPORT freetype-targets
-          DESTINATION ${INSTALL_LIB_DIR}/cmake/freetype
-          FILE ${LIB_NAME}-config.cmake
-      )
-  endif()
 endif ()
 
 # Export package ===============================================================
