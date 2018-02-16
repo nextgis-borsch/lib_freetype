@@ -78,6 +78,7 @@ set(SHARED_LIBRARY_VERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 if(OSX_FRAMEWORK)
     set(FRAMEWORK_VERSION "${VERSION_MAJOR}")
 endif()
+
 report_version(${PROJECT_NAME} ${VERSION})
 
 # Compiler definitions for building the library
