@@ -136,6 +136,31 @@ if (UNIX)
 else ()
   file(READ "${PROJECT_SOURCE_DIR}/include/freetype/config/ftconfig.h"
     FTCONFIG_H)
+
+    string(REPLACE <match_string>
+           <replace_string> <output variable>
+           <input> [<input>...])
+
+    string(REPLACE "FT_BEGIN_HEADER"
+"
+FT_BEGIN_HEADER
+
+#ifdef freetype_EXPORTS
+#define FT_EXPORT(x) __declspec(dllexport) x
+#define FT_EXPORT_DEF(x) __declspec(dllexport) x
+#define FT_EXPORT_VAR(x) __declspec(dllexport) x
+#else
+#define FT_EXPORT(x) __declspec(dllimport) x
+#define FT_EXPORT_DEF(x) __declspec(dllimport) x
+#define FT_EXPORT_VAR(x) __declspec(dllimport) x
+#endif
+"
+FTCONFIG_H "${FTCONFIG_H}"
+    )
+
+    #define FT_BASE(x) __declspec(dllexport) x
+    #define FT_BASE(x) __declspec(dllimport) x
+
   file(WRITE "${PROJECT_BINARY_DIR}/include/freetype/config/ftconfig.h-new"
     "${FTCONFIG_H}")
 endif ()
@@ -235,11 +260,6 @@ set(BASE_SRCS
 
 if (WIN32)
     set(BASE_SRCS ${BASE_SRCS} builds/windows/ftdebug.c)
-    add_definitions(-DFT_EXPORT(x)="__declspec(dllexport) x"
-                    -DFT_EXPORT_DEF(x)="__declspec(dllexport) x"
-                    -DFT_BASE(x)="__declspec(dllexport) x"
-                    -DFT_EXPORT_VAR(x)="__declspec(dllexport) x"
-                )
 elseif (WINCE)
   set(BASE_SRCS ${BASE_SRCS} builds/wince/ftdebug.c)
 else ()
@@ -251,7 +271,8 @@ if(BUILD_SHARED_LIBS)
     add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_FT_HEADERS} ${PUBLIC_CONFIG_HEADERS})
     set_target_properties (${LIB_NAME} PROPERTIES
         VERSION ${VERSION}
-        SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+        SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+    DEFINE_SYMBOL freetype_EXPORTS)
 elseif(OSX_FRAMEWORK)
     add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_FT_HEADERS} ${PUBLIC_CONFIG_HEADERS})
     set_property(SOURCE ${PUBLIC_CONFIG_HEADERS}
@@ -311,15 +332,6 @@ target_include_directories(${LIB_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
-
-if(WIN32)
-    target_compile_definitions(${LIB_NAME} PUBLIC
-        FT_EXPORT(x)="__declspec(dllimport) x"
-        FT_EXPORT_DEF(x)="__declspec(dllimport) x"
-        FT_BASE(x)="__declspec(dllimport) x"
-        FT_EXPORT_VAR(x)="__declspec(dllimport) x"
-    )
-endif()
 
 # Add all targets to the build-tree export set
 export(TARGETS ${LIB_NAME}
