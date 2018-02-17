@@ -234,7 +234,12 @@ set(BASE_SRCS
 )
 
 if (WIN32)
-  set(BASE_SRCS ${BASE_SRCS} builds/windows/ftdebug.c)
+    set(BASE_SRCS ${BASE_SRCS} builds/windows/ftdebug.c)
+    add_definitions(-DFT_EXPORT(x)="__declspec(dllexport) x"
+                    -DFT_EXPORT_DEF(x)="__declspec(dllexport) x"
+                    -DFT_BASE(x)="__declspec(dllexport) x"
+                    -DFT_EXPORT_VAR(x)="__declspec(dllexport) x"
+                )
 elseif (WINCE)
   set(BASE_SRCS ${BASE_SRCS} builds/wince/ftdebug.c)
 else ()
@@ -247,14 +252,6 @@ if(BUILD_SHARED_LIBS)
     set_target_properties (${LIB_NAME} PROPERTIES
         VERSION ${VERSION}
         SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
-    if(WIN32)
-        set_target_properties (${LIB_NAME} PROPERTIES
-            DEFINE_SYMBOL FT_EXPORT(x)="__declspec(dllexport) x"
-            DEFINE_SYMBOL FT_EXPORT_DEF(x)="__declspec(dllexport) x"
-            DEFINE_SYMBOL FT_BASE(x)="__declspec(dllexport) x"
-            DEFINE_SYMBOL FT_EXPORT_VAR(x)="__declspec(dllexport) x"
-        )
-    endif()
 elseif(OSX_FRAMEWORK)
     add_library(${LIB_NAME} SHARED ${BASE_SRCS} ${PUBLIC_HEADERS} ${PUBLIC_FT_HEADERS} ${PUBLIC_CONFIG_HEADERS})
     set_property(SOURCE ${PUBLIC_CONFIG_HEADERS}
