@@ -194,6 +194,7 @@ if (HARFBUZZ_FOUND)
   string(REGEX REPLACE
     "/\\* +(#define +FT_CONFIG_OPTION_USE_HARFBUZZ) +\\*/" "\\1"
     FTOPTION_H "${FTOPTION_H}")
+    include_directories(${HARFBUZZ_INCLUDE_DIRS}/harfbuzz)
 endif ()
 file(WRITE "${PROJECT_BINARY_DIR}/include/freetype/config/ftoption.h-new"
   "${FTOPTION_H}")
