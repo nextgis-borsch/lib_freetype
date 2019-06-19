@@ -1,4 +1,4 @@
-.,.,,"README,ChangeLog"
+,,,"README,ChangeLog"
 docs,docs,,*
 docs/reference,docs/reference,,*
 objs,objs,skip,
@@ -9,7 +9,7 @@ include/freetype/config,include/freetype/config,,h
 include/freetype,include/freetype,,h
 include,include,,h
 src/autofit,src/autofit,,"c,h"
-src/base,src/base,,"c,h"
+src/base,src/base,,"c,h,rc"
 src/bdf,src/bdf,,"c,h"
 src/bzip2,src/bzip2,,"c,h"
 src/cache,src/cache,,"c,h"

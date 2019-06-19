@@ -27,7 +27,7 @@ function(check_version major minor rev)
     set(VERSION_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/util.cmake)
 
     set(FT_MAJOR_VERSION 2)
-    set(FT_MINOR_VERSION 8)
+    set(FT_MINOR_VERSION 10)
     set(FT_PATCH_VERSION 0)
 
     set(${major} ${FT_MAJOR_VERSION} PARENT_SCOPE)
@@ -131,6 +131,9 @@ function(get_compiler_version ver)
             set(COMPILER "${COMPILER}-64bit")
         endif()
     endif()
+
+    # Debug
+    set(COMPILER Clang-9.0)
 
     set(${ver} ${COMPILER} PARENT_SCOPE)
 endfunction()
