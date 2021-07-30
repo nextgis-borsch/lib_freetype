@@ -3,6 +3,7 @@ docs,docs,,*
 docs/reference,docs/reference,,*
 objs,objs,skip,
 builds/unix,builds/unix,,in
+include/dlg,include/dlg,,h
 include/freetype/internal/services,include/freetype/internal/services,,h
 include/freetype/internal,include/freetype/internal,,h
 include/freetype/config,include/freetype/config,,h
@@ -15,6 +16,7 @@ src/bzip2,src/bzip2,,"c,h"
 src/cache,src/cache,,"c,h"
 src/cff,src/cff,,"c,h"
 src/cid,src/cid,,"c,h"
+src/dlg,src/dlg,,"c,h"
 src/gzip,src/gzip,,"c,h"
 src/lzw,src/lzw,,"c,h"
 src/pcf,src/pcf,,"c,h"
@@ -23,6 +25,7 @@ src/psaux,src/psaux,,"c,h"
 src/pshinter,src/pshinter,,"c,h"
 src/psnames,src/psnames,,"c,h"
 src/raster,src/raster,,"c,h"
+src/sdf,src/sdf,,"c,h"
 src/sfnt,src/sfnt,,"c,h"
 src/smooth,src/smooth,,"c,h"
 src/truetype,src/truetype,,"c,h"
