@@ -90,7 +90,7 @@ add_definitions(-DFT2_BUILD_LIBRARY)
 include(FindAnyProject)
 
 # Find dependencies
-foreach (d ZLIB BZip2 PNG HarfBuzz)
+foreach (d ZLIB BZip2 PNG)# HarfBuzz)
   string(TOUPPER "${d}" D)
 
   find_anyproject(${d} DEFAULT ON NAMES ${d} BZ2 bz2 libbzip2)
